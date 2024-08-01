@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Page</title>
+</head>
+<body>
+    <div id="intro">
+        <div id="intro-title">
+            <h1 id="title">Survey Page</h1>
+        </div>
+        <div class="desc">
+            <p id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent varius, quam et laoreet tempus, elit lectus vehicula diam, vitae ultricies justo augue vitae quam.<br>Sed sollicitudin lacus velit, id tempus ligula luctus nec. Suspendisse et nulla a augue malesuada ornare. </p>
+        </div>
+    </div>
+    <div id="survey">
+        <fieldset id="surveyformfieldset">Survey Form
+            <form action="example.htm" id="survey-form">
+                <label for="name" id="name-label">Name:</label>
+                <input type="text" name="name" id="name" placeholder="John Smith" required><br><br>
+                <label for="email" id="email-label">Email:</label>
+                <input type="email" name="email" id="email" placeholder="example@email.com" required><br><br>
+                <label for="number" id="number-label">Number:</label>
+                <input type="number" name="number" id="number" min="0000000000" max="9999999999" placeholder="000-000-0000"><br><br>
+                <label for="dropdown">Dropdown</label>
+                <select name="dropdown" id="dropdown">
+                    <option value="" disabled selected></option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+                <br><br>
+                <fieldset>
+                    <div class="radios">
+                        <legend>Radio description here</legend><br>
+                        <input type="radio" name="radios" id="radio1" value="radio1">
+                        <label for="radio1">radio1</label>
+                        <input type="radio" name="radios" id="radio2" value="radio2">
+                        <label for="radio2">radio2</label>
+                    </div>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <div class="checkboxes">
+                        <legend>Checkboxes description here</legend>
+                        <input type="checkbox" name="checkboxes" id="check1" value="check1">
+                        <label for="check1">Check1</label>
+                        <input type="checkbox" name="checkboxes" id="check2" value="check2">
+                        <label for="check2">Check2</label>
+                    </div>
+                </fieldset>
+                <br>
+                <div class="textarea">
+                    <textarea name="textarea" id="textarea">Additional Comments...</textarea>
+                </div>
+                <br>
+                <div id="submit-form">
+                    <button type="submit" id="submit">Submit</button>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</body>
+</html>
