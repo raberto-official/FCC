@@ -1,0 +1,8 @@
+@media screen {
+    background-color: white;
+}
+
+#navbar {
+  position: fixed;
+  top: 0px;
+}

@@ -1,0 +1,14 @@
+img{
+    width: 25%;
+    height: 25%;
+}
+
+#nav-bar {
+    position: fixed;
+    top: 0px;
+}
+
+#form {
+    background-color: antiquewhite;
+    display: flex;
+}
