@@ -1,17 +1,31 @@
-// const textInput = document.getElementById("#text-input");
+// let x = "tacos";
 
-var textInput = "racecar";
+// x = x.split("");
 
-function palindromeChecker(textInput) {
-    for(var i = 0; i < textInput; i++) {
-        if(textInput[i] == textInput[-i]) {
-            return true;
-        } else {
-            return false;
-        };
-    };
-  };
+// function isPalindrome(arr) {
+//     return arr.join('') === arr.slice().reverse().join('');
+// }
 
-console.log(palindromeChecker(textInput));
+// const ans = isPalindrome(x);
 
-console.log(textInput);
+// if (ans) {
+//     console.log("Yes");
+// } else {
+//     console.log("No");
+// }
+
+//===========================================================================//
+
+
+
+const form = document.getElementById("form");
+const textInput = document.getElementById("text-input");
+const result = document.getElementById("result");
+
+isError = false;
+
+form.addEventListener("submit", function (e) { 
+    e.preventDefault()
+ })
+
+ 
