@@ -29,14 +29,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     button.addEventListener('click', () => {
-        const inputValue = input.value.trim().split("");
-        const result = isPalindrome(inputValue);
+        //something tells me that this is a poor way to store and retrieve the variable and it's so specific so I imagine that this wouldn't work as a long term solution
+        let inputText = input.value.trim();
+        let inputToCheck = input.value.toLowerCase().replace(/[\s_.,\\\/()-]/g, "").split("");
+        const result = isPalindrome(inputToCheck);
         resultText.innerHTML = '';
 
-        if(inputValue.length === 0 ) {
+        if(inputToCheck.length === 0 ) {
             alert('Please input a value');
         } else {
-            const resultNode = document.createTextNode(result ? 'Yes, it\'s a palindrome!' : 'No, this is not a palindrome.');
+            const resultNode = document.createTextNode(result ? `${inputText} is a palindrome` :`${inputText} is not a palindrome`);
+            //used this console.log to keep track and test
+            console.log(inputToCheck);
             resultText.appendChild(resultNode);
         }
 
