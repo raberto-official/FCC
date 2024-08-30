@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let button = document.getElementById('purchase-btn');
     let changeDue = document.getElementById('change-due');
 
-    let price = 19.5;
     let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
@@ -25,28 +24,40 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const closed = 'Status: CLOSED';
     const open = 'Status: OPEN';
 
-    function getChange(cash) {
-        let change = Math.round((cash - price)*100)/100;
+    function getChange(price, cash) {
+        let change = Math.round(((cash - price)*100)/100,2);
         let newCid = [];
 
         if (cash < price) {
             alert('Customer does not have enough money to purchase the item');
         } else if (cash == price) {
             changeDue.append('No change due - customer paid with exact cash')
+        } else if(change > cidTotal){
+            changeDue.append(insufficient);
         } else {
+                //get names of coins used
                 for (let i = 0; i < cid.length; i++) {
-                    let coin = cid[i][0];
-                    let value = cid[i][1];
-                    let changeReturn = 0;
-                    if (change >= cidValue[i] ) {
-                        change -= value;
-                        changeReturn += value;
-                        newCid.push([coin + ": "+ changeReturn]);
-                        
-                    } 
+                    while (cidTotal - cidValue[i] < 0){
+                        newCid += cidValue[i]; 
+                        cidTotal -= cidValue[i]
+                        console.log(newCid)
+                    }
+                    
                 }
-                
-                    changeDue.append(newCid);
+                // changeDue.append(cidTotal)
+                // for (let i = 0; i < cid.length; i++) {
+                    
+                    
+                // }
+
+                //append to newCid
+                // for (let i = 0; i < cidValue.length; i++) {
+                   
+                //     while ( something ) {
+
+                        
+                //     } 
+                // }
                 
             }
 
