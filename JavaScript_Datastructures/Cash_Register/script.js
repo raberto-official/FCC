@@ -1,8 +1,7 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-    let button = document.getElementById('purchase-btn');
-    let changeDue = document.getElementById('change-due');
+// let price = document.getElementById('price').value;
+let price = 3.26;
 
-    let cid = [
+let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
     ['DIME', 3.1],
@@ -13,63 +12,85 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ['TWENTY', 60],
     ['ONE HUNDRED', 100]
     ];
-    cidValue = [100,20,10,5,1,.25,.1,.05,.01];
-    cid.reverse();
 
-    // tried out this method to get total and it's super cool had trouble accessing cid[i][1] till this solution came up
-    const initialValue = 0;
-    const cidTotal = cid.reduce((accumulator, currentValue) => accumulator + currentValue[1], 0);
+document.addEventListener("DOMContentLoaded", (event) => {
+    let button = document.getElementById('purchase-btn');
+    let changeDue = document.getElementById('change-due');
+
+
 
     const insufficient = 'Status: INSUFFICIENT_FUNDS';
     const closed = 'Status: CLOSED';
     const open = 'Status: OPEN';
 
-    function getChange(price, cash) {
-        let change = Math.round(((cash - price)*100)/100,2);
-        let newCid = [];
+    function getChange(cash, price) {
+        let change = (cash - price) * 100 /100;
+        // tried out this method to get total and it's super cool had trouble accessing cid[i][1] till this solution came up
+        let cidTotal = cid.reduce((accumulator, currentValue) => accumulator + currentValue[1], 0).toFixed(2);
+        
 
         if (cash < price) {
             alert('Customer does not have enough money to purchase the item');
-        } else if (cash == price) {
-            changeDue.append('No change due - customer paid with exact cash')
-        } else if(change > cidTotal){
-            changeDue.append(insufficient);
-        } else {
-                //get names of coins used
-                for (let i = 0; i < cid.length; i++) {
-                    while (cidTotal - cidValue[i] < 0){
-                        newCid += cidValue[i]; 
-                        cidTotal -= cidValue[i]
-                        console.log(newCid)
-                    }
-                    
-                }
-                // changeDue.append(cidTotal)
-                // for (let i = 0; i < cid.length; i++) {
-                    
-                    
-                // }
-
-                //append to newCid
-                // for (let i = 0; i < cidValue.length; i++) {
-                   
-                //     while ( something ) {
-
-                        
-                //     } 
-                // }
-                
-            }
-
-        
-   
+        }else if(cash == price) {
+            changeDue.textContent = "No change due - customer paid with exact cash";
+        }else if(change > cidTotal){
+            changeDue.textContent = insufficient;
+        }else {
+            //this is to clear previous input 
+            changeDue.textContent = '';
+            changeDue.textContent = open + ', ' + calculation(change).map(i => `${i[0]}: ${i[1]}`).join(', ');
+            console.log(calculation(change))
+            console.log(change);
+            
+        }
     }
+
+    function calculation(change) {  
+        
+        // let changeCopy = change;
+        let changeBack = [];
+        //using this copy as to not alter the original, though in a real world situation might be better to have the drawer set as an input or maybe a separate const depending on policy
+        let cidCopy = [...cid].reverse();
+        //values of each coin, initially I tried with just the values instead of the names too but i've gone through so many iterations, trying something different...
+        denominations = [
+            ['ONE HUNDRED', 100.00],
+            ['TWENTY', 20.00],
+            ['TEN', 10.00],
+            ['FIVE', 5.00],
+            ['ONE', 1.00],
+            ['QUARTER', .25],
+            ['DIME', .10],
+            ['NICKEL', .05],
+            ['PENNY', .01]
+        ];
+
+        for (let i = 0; i < denominations.length; i++){
+            let name = denominations[i][0];
+            let value = denominations[i][1];
+            let cidValue = cidCopy.find(i => i[0] === name)[1];
+
+            if (change >= value && cidValue > 0) {
+                //determines coin value I know it's in the name but it's like having a dollar and then breaking it up based on the value of change available 
+                let coinValue = Math.floor(change / value) * value;
+                //this one picks the lowest amount so you don't run over your limit of coins? kind of how it was explained to me
+                let availableInCid = Math.min(coinValue, cidValue);
+
+                if (availableInCid > 0) {
+                    changeBack.push([name, availableInCid]);
+                    change -= availableInCid;
+                    change = Math.round(change * 100) / 100;
+                };
+
+
+            };
+        };
+        return changeBack;
+     };
 
 
     button.addEventListener('click', () => {
         let cash = document.getElementById('cash').value;
         
-        getChange(cash);
-    })
-})
-
+        getChange(cash, price);
+    });
+});
