@@ -1,5 +1,5 @@
 // let price = document.getElementById('price').value;
-let price = 3.26;
+let price = 19.5;
 
 let cid = [
     ['PENNY', 1.01],
@@ -16,12 +16,14 @@ let cid = [
 document.addEventListener("DOMContentLoaded", (event) => {
     let button = document.getElementById('purchase-btn');
     let changeDue = document.getElementById('change-due');
-
+    let cidText = document.getElementById('cidText');
 
 
     const insufficient = 'Status: INSUFFICIENT_FUNDS';
     const closed = 'Status: CLOSED';
     const open = 'Status: OPEN';
+
+    // cidText.innerText = cid;
 
     function getChange(cash, price) {
         let change = (cash - price) * 100 /100;
@@ -38,15 +40,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }else {
             //this is to clear previous input 
             changeDue.textContent = '';
-            changeDue.textContent = open + ', ' + calculation(change).map(i => `${i[0]}: ${i[1]}`).join(', ');
-            console.log(calculation(change))
-            console.log(change);
+            changeDue.textContent = open + ', ' + changeCalc(change).map(i => `${i[0]}: ${i[1]}`).join(', ');
             
         }
     }
 
-    function calculation(change) {  
-        
+    function changeCalc(change) {  
+        let cidTotal = cid.reduce((accumulator, currentValue) => accumulator + currentValue[1], 0).toFixed(2);
         // let changeCopy = change;
         let changeBack = [];
         //using this copy as to not alter the original, though in a real world situation might be better to have the drawer set as an input or maybe a separate const depending on policy
@@ -73,12 +73,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 //determines coin value I know it's in the name but it's like having a dollar and then breaking it up based on the value of change available 
                 let coinValue = Math.floor(change / value) * value;
                 //this one picks the lowest amount so you don't run over your limit of coins? kind of how it was explained to me
+                cid[i][1] -= coinValue;
+                cidTotal -= coinValue
                 let availableInCid = Math.min(coinValue, cidValue);
-
+                console.log(cid);
+                console.log(cidTotal)
+                
                 if (availableInCid > 0) {
                     changeBack.push([name, availableInCid]);
                     change -= availableInCid;
                     change = Math.round(change * 100) / 100;
+                     
                 };
 
 
@@ -87,10 +92,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         return changeBack;
      };
 
+    //  function cidCalc (cid) {
+
+    //  }
+
 
     button.addEventListener('click', () => {
         let cash = document.getElementById('cash').value;
         
         getChange(cash, price);
     });
+
+    cidText.append(cid);
 });
