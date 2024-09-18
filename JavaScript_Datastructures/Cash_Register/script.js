@@ -11,24 +11,13 @@ let cid = [
     ['ONE HUNDRED', 100]
     ];
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    // let price = document.getElementById('price').value;
-    // let price = 19.5;
-    // let cid = [
-    //     ['PENNY', 1.01],
-    //     ['NICKEL', 2.05],
-    //     ['DIME', 3.1],
-    //     ['QUARTER', 4.25],
-    //     ['ONE', 90],
-    //     ['FIVE', 55],
-    //     ['TEN', 20], 
-    //     ['TWENTY', 60],
-    //     ['ONE HUNDRED', 100]
-    //     ];
+// document.addEventListener('DOMContentLoaded', (event) => {
+
      
     let button = document.getElementById('purchase-btn');
     let changeDue = document.getElementById('change-due');
     let cidText = document.getElementById('cidText');
+    
 
 
     const insufficient = 'Status: INSUFFICIENT_FUNDS';
@@ -46,13 +35,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (cash < price) {
             alert('Customer does not have enough money to purchase the item');
         }else if(cash == price) {
-            changeDue.textContent = "No change due - customer paid with exact cash";
+            changeDue.innerHTML = "No change due - customer paid with exact cash";
         }else if(change > cidTotal){
-            changeDue.textContent = insufficient;
+            changeDue.innerHTML = insufficient;
         }else {
             //this is to clear previous input 
-            changeDue.textContent = '';
-            changeDue.textContent = open + ' ' + changeCalc(change).map(i => `${i[0]}: ${i[1]}`).join(', ');
+            // changeDue.innerHTML = '';
+            changeDue.innerHTML = open + ' ' + changeCalc(change).map(i => `${i[0]}: ${i[1]}`).join(', ');
             cidText.innerHTML = cid;
             
         }
@@ -64,8 +53,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // let changeCopy = change;
         let changeBack = [];
         //using this copy as to not alter the original, though in a real world situation might be better to have the drawer set as an input or maybe a separate const depending on policy
-        // let cidCopy = [...cid].reverse();
-        cid.reverse();
+        let cidCopy = [...cid].reverse();
+        
         //values of each coin, initially I tried with just the values instead of the names too but i've gone through so many iterations, trying something different...
         let denominations = [
             ['ONE HUNDRED', 100.00],
@@ -82,30 +71,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
         for (let i = 0; i < denominations.length; i++){
             let name = denominations[i][0];
             let value = denominations[i][1];
-            let cidValue = cid.find(i => i[0] === name)[1];
+            let cidValue = cidCopy.find(i => i[0] === name)[1];
 
             if (change >= value && cidValue > 0) {
                 //determines coin value I know it's in the name but it's like having a dollar and then breaking it up based on the value of change available 
                 let coinValue = Math.floor(change / value) * value;
                 //this one picks the lowest amount so you don't run over your limit of coins? kind of how it was explained to me
-                cid[i][1] -= coinValue;
+                cidCopy[i][1] -= coinValue;
                 cidTotal -= coinValue
                 let availableInCid = Math.min(coinValue, cidValue);
-                console.log(cid);
+                console.log(changeDue);
                 console.log(cidTotal)
                 
                 if (availableInCid > 0) {
                     changeBack.push([name, availableInCid]);
                     change -= availableInCid;
                     change = Math.round(change * 100) / 100;
-                    // cid[i][1] -= denominations[i][1];
+                 
                 };
 
+                // for (let i = 0; i < cid.length; i++) {
+                //     cid.pop(cid[i]);
+                //     cid.push(cidCopy[i]);
+                // }
             };
+            // console.log(changeDue.value)
         };
         return changeBack;
+        
     };
 
+    console.log(changeDue.value)
+
+    cidText.append()
 
     button.addEventListener('click', () => {
         let cash = document.getElementById('cash').value;
@@ -113,4 +111,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         getChange(cash, price);
     });
 
-})
+// })
+
+// Struggling still also found out if i repeatedly press the purchase button things get wonky after a while
