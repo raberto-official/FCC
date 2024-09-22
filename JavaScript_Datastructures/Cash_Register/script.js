@@ -1,4 +1,8 @@
-let price = 11.95;
+//Turns out this code doesn't work how I thought it did.
+//it doesn't return the insufficient status correctly, like if you run out of cid then it goes straight to the open status
+//it calculates but i think it calculates not how I want it to its weird like it'll get the correct change for the most part but I may need to rethink the logic in my calculations
+
+let price = 10;
 let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
@@ -50,46 +54,41 @@ button.addEventListener('click', () => {
             let value = denominations[i][1];
             let cidValue = cidCopy.find(i => i[0] === name)[1];
             
-                if (change >= value && cidValue > 0) {
-                    //determines coin value I know it's in the name but it's like having a dollar and then breaking it up based on the value of change available 
-                    let coinValue = Math.floor(change / value) * value;
-                    //this one picks the lowest amount so you don't run over your limit of coins? kind of how it was explained to me
-                    cidCopy[i][1] -= coinValue;
-                    // cidTotal -= coinValue;
-                    let availableInCid = Math.min(coinValue, cidValue);
-                        
-                    if (availableInCid > 0) {
-                        changeBack.push([name, availableInCid]);
-                        change -= availableInCid;
-                        change = Math.round(change * 100) / 100;
-                    }  else {
-                        changeDue.textContent = "Status: INSUFFICIENT_FUNDS";
-                    }
+            if (change >= value && cidValue > 0) {
+                //determines coin value I know it's in the name but it's like having a dollar and then breaking it up based on the value of change available 
+                let coinValue = Math.floor(change / value) * value;
+                cidCopy[i][1] = Math.max(0, cidValue - coinValue);
+                //this one picks the lowest amount so you don't run over your limit of coins? kind of how it was explained to me; update: realizing it doesn't work the way i expected
+                let availableInCid = Math.min(coinValue, cidValue).toFixed(2);
+                if (availableInCid > 0) {
+                    changeBack.push([name, availableInCid]);
+                    change = Math.max(0, (change - availableInCid)).toFixed(2);
+                    cidTotal -= coinValue;
+                    console.log(availableInCid)
+                }
 
-                };
-                
-        };
-        return changeBack;
-            
+            }
+
+        }
+    return changeBack;
+
     };
         
-    if(cash == ''){
-        alert('Please input a cash amount')
+    if(cash == 0 || cash == '' || cash == null){
+        alert('Please input a valid cash amount')
     }else if (cash < price) {
         alert('Customer does not have enough money to purchase the item');
     }else if(cash === price) {
         changeDue.textContent = "No change due - customer paid with exact cash";
     }else if(change > cidTotal){
         //need to expand on this like what happens if i run out of change on a specific coin
-        const insufficientNode = document.createTextNode("Status: INSUFFICIENT_FUNDS");
-        changeDue.appendChild(insufficientNode);
+        changeDue.textContent = insufficient;
     }else {
-        changeDue.textContent = open + ' ' + changeCalc(change).map(i => `${i[0]}: $${i[1]}`).join(', ');
-        cidText.textContent = cid;
+        const changeResult = changeCalc(change);
+        changeDue.textContent = open + ' ' + changeResult.map(i => `${i[0]}: $${i[1]}`).join(', ');
+        cidText.textContent = cid.map(i => `${i[0]}: $${i[1].toFixed(2)}`).join(", ");
 
     }
 
-
-
-    console.log(cidTotal)
 });
+
