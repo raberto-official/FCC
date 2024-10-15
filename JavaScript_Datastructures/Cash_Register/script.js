@@ -65,7 +65,7 @@ button.addEventListener('click', () => {
                     change = Math.max(0, (change - availableInCid)).toFixed(2);
                     cidTotal -= coinValue;
                     console.log(availableInCid)
-                }
+                } 
 
             }
 
