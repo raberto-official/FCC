@@ -111,8 +111,22 @@ let button = document.getElementById('purchase-btn');
 let changeDue = document.getElementById('change-due');
 let cidText = document.getElementById('cidText');
 
-button.addEventListener('click', () => {
+let changeAmount = (cash - price) * 100 /100;
 
-    
+function getChange(cash, price){
+
+    if(cash < price) {
+        alert("Customer does not have enough money to purchase the item");
+    }
+
+}
+
+button.addEventListener("click", () => {
+
+    let cash = parseFloat(document.getElementById('cash').value);
+    let changeAmount = (cash - price) * 100 /100;
+
+    getChange(cash, price);
+    console.log("test");
 
 })
