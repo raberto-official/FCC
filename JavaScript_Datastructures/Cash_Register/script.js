@@ -92,7 +92,7 @@
 
 // });
 
-let price = 10;
+let price = 11.95;
 let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
@@ -115,8 +115,17 @@ let changeAmount = (cash - price) * 100 /100;
 
 function getChange(cash, price){
 
-    if(cash < price) {
+    if(!cash) {
+        alert("Please input a valid value.")
+    }else if(cash < price) {
         alert("Customer does not have enough money to purchase the item");
+    }else if(cash === price) {
+        alert("No change due - customer paid with exact cash");
+    }
+
+    if(changeAmount !== 0) {
+        //Calculate coins needed here but keep in mind that you have a very finite amount of coins
+    
     }
 
 }
@@ -127,6 +136,5 @@ button.addEventListener("click", () => {
     let changeAmount = (cash - price) * 100 /100;
 
     getChange(cash, price);
-    console.log("test");
-
+    console.log(cash, price)
 })
