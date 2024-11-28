@@ -108,13 +108,56 @@ let cid = [
 let cidReverse = [...cid].reverse();
 let cidTotal = cid.reduce((accumulator, currentValue) => accumulator + currentValue[1], 0).toFixed(2);
 
-let denominations = [ 100, 20, 10, 5, 1, .25 , .1, .05, .01];
+const denominations = [ 
+    {
+        name: "ONE HUNDRED",
+        value: 100
+    },
+    {
+        name: "TWENTY",
+        value: 20
+    },
+    {
+        name: "TEN",
+        value: 10
+    },
+    {
+        name: "FIVE",
+        value: 5
+    },
+    {
+        name: "ONE",
+        value: 1
+    },
+    {
+        name: "QUARTER",
+        value: .25
+    },
+    {
+        name: "DIME",
+        value: .1
+    },
+    {
+        name: "NICKEL",
+        value: .05
+    },
+    {
+        name: "PENNY",
+        value: .01
+    }
+];
 
 let button = document.getElementById('purchase-btn');
 let changeDue = document.getElementById('change-due');
 let cidText = document.getElementById('cidText');
 
 let changeAmount = (cash - price) * 100 /100;
+
+ class change {
+    constructor() {
+        
+    }
+}
 
 function getChange(cash, price){
 
@@ -128,14 +171,7 @@ function getChange(cash, price){
 
     if(changeAmount !== 0) {
         //Calculate coins needed here but keep in mind that you have a very finite amount of coins
-        for (let i = 0; i < cidReverse.length; i++) {
-            const element = cidReverse[i];
-            if(cidReverse[i] == 0){
-                //if no more of this coin is available move on to the next one
-                
-            }
-            //else if there are more coins available here then use them until none are left
-        }
+        
     }
 
 }
@@ -146,5 +182,5 @@ button.addEventListener("click", () => {
     let changeAmount = (cash - price) * 100 /100;
 
     getChange(cash, price);
-    console.log(cidTotal);
+    cidText.innerText = change.penny.name + ': ' + change.penny.amount;
 })
